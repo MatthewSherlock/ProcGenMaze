@@ -78,6 +78,9 @@ class AGPPROCEDURALPROJECT_API AThirdPersCharacter : public ACharacter
 		UPROPERTY(BlueprintReadWrite)
 			bool hasGun; //for animation
 
+		UFUNCTION()
+			void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 
 		UFUNCTION(BlueprintImplementableEvent) //called in C++, created in BP
 			void OnTakeDamage();

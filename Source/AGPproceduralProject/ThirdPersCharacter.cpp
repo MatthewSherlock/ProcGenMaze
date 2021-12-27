@@ -18,6 +18,8 @@ AThirdPersCharacter::AThirdPersCharacter()
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AThirdPersCharacter::OnBeginOverlap);
+
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
@@ -149,6 +151,11 @@ void AThirdPersCharacter::MoveRight(float Value)
 
 void AThirdPersCharacter::updateMaxWalkSpeed(float newMaxWalkSpeed) {
 	GetCharacterMovement()->MaxWalkSpeed = newMaxWalkSpeed;
+}
+
+void AThirdPersCharacter::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	
 }
 
 float AThirdPersCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) {

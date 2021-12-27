@@ -146,5 +146,8 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 		void GameOver(bool hasWon);
+
+	UPROPERTY(VisibleDefaultsOnly)
+		UPawnSensingComponent* PawnSensing;
 };
 
