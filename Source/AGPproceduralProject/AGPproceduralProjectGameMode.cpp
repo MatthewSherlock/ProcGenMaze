@@ -15,3 +15,5 @@ AAGPproceduralProjectGameMode::AAGPproceduralProjectGameMode()
 	// use our custom HUD class
 	HUDClass = AAGPproceduralProjectHUD::StaticClass();
 }
+
+

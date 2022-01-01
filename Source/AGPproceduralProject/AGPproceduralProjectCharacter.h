@@ -57,8 +57,7 @@ class AAGPproceduralProjectCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UMotionControllerComponent* L_MotionController;
 
-	UPROPERTY(EditAnywhere)
-	AFlashlight* flashlight;
+
 public:
 	AAGPproceduralProjectCharacter();
 
@@ -168,7 +167,8 @@ public:
 
 	void Blink();
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		AFlashlight* flashlight;
 
 	void UseFlashlight();
 };

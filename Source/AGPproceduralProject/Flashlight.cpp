@@ -54,6 +54,8 @@ void AFlashlight::ToggleFlashlight()
 
 void AFlashlight::RefillBattery(float amt)
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "REFILL");
 	currBatteryLife += amt;
+
 }
 

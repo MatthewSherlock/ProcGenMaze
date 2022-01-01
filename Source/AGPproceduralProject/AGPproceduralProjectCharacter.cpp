@@ -246,7 +246,7 @@ void AAGPproceduralProjectCharacter::OnBeginOverlap(UPrimitiveComponent* Overlap
 	}
 	if (battery)
 	{
-		flashlight->RefillBattery(battery->batteryLifeGiven);
+		float amount = battery->batteryLifeGiven;
 	}
 }
 
@@ -257,7 +257,5 @@ void AAGPproceduralProjectCharacter::Blink()
 
 void AAGPproceduralProjectCharacter::UseFlashlight()
 {
-	flashlight->ToggleFlashlight();
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "used");
-
 }
