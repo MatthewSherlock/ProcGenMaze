@@ -55,4 +55,10 @@ public:
 	void spawnATile(TSubclassOf<class ATile> tileClass, float x, float y, float z);
 	void spawnGoal(TSubclassOf<class AGoal> goalClass, float x, float y, float z);
 
+
+	UFUNCTION(BlueprintCallable)
+		void changeSeed(int newSeed);
+
+	FRandomStream RandomStream;
+
 };

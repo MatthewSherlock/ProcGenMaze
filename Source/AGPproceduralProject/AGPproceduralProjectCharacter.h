@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Perception/PawnSensingComponent.h"
+#include "Flashlight.h"
 #include "AGPproceduralProjectCharacter.generated.h"
 
 class UInputComponent;
@@ -19,9 +21,13 @@ class AAGPproceduralProjectCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+	UPROPERTY(VisibleAnywhere, Category = Awareness)
+	UPawnSensingComponent* PawnSensor;
+
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
 	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
 	USkeletalMeshComponent* Mesh1P;
+
 
 	/** Gun mesh: 1st person view (seen only by self) */
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
@@ -51,6 +57,8 @@ class AAGPproceduralProjectCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UMotionControllerComponent* L_MotionController;
 
+	UPROPERTY(EditAnywhere)
+	AFlashlight* flashlight;
 public:
 	AAGPproceduralProjectCharacter();
 
@@ -146,8 +154,22 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 		void GameOver(bool hasWon);
+	UFUNCTION(BlueprintCallable)
+		void RemoveLives();
 
-	UPROPERTY(VisibleDefaultsOnly)
-		UPawnSensingComponent* PawnSensing;
+	UPROPERTY(EditAnywhere)
+		int currLives;
+
+	bool keyFound;
+	UFUNCTION()
+		void OnSeePawn(APawn* OtherPawn);
+	UFUNCTION()
+		void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	void Blink();
+
+
+
+	void UseFlashlight();
 };
 

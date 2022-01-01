@@ -35,8 +35,11 @@ void AGoal::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherAct
 	AAGPproceduralProjectCharacter* player = Cast<AAGPproceduralProjectCharacter>(OtherActor);
 	if (OtherActor != this && player)
 	{
-		UGameplayStatics::PlaySound2D(this, winSound);
-		player->GameOver(true);
+		if (player->keyFound)
+		{
+			UGameplayStatics::PlaySound2D(this, winSound);
+			player->GameOver(true);
+		}
 	}
 
 }

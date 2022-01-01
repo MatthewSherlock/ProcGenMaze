@@ -163,3 +163,4 @@ float AThirdPersCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Da
 	OnTakeDamage(); //call BP created event function
 	return health;
 }
+

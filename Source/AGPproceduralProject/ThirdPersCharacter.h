@@ -85,4 +85,8 @@ class AGPPROCEDURALPROJECT_API AThirdPersCharacter : public ACharacter
 		UFUNCTION(BlueprintImplementableEvent) //called in C++, created in BP
 			void OnTakeDamage();
 		virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, AController * EventInstigator, AActor * DamageCauser);
+
+		UFUNCTION(BlueprintImplementableEvent)
+			void SeenByPlayer();
+
 	};
