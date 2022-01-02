@@ -9,6 +9,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "NavigationSystem.h"
+#include "Math/UnrealMathUtility.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AThirdPersCharacter
@@ -166,7 +168,19 @@ float AThirdPersCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Da
 
 void AThirdPersCharacter::OnPlayerBlink()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "ON PLAYER BLINK");
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "ON PLAYER BLINK");	
+
+	randNum = FMath::RandRange(0, 100);
+
+	if (randNum <= 20)
+	{
+		TeleportToNewLocation();
+	}
+	else
+	{
+		GetCharacterMovement()->MaxAcceleration = moveAccel * 5;
+	}
+
 
 }
 

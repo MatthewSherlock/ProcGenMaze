@@ -13,6 +13,9 @@
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 #include "ThirdPersCharacter.h"
 #include "PickupBase.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
+
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
 //////////////////////////////////////////////////////////////////////////
@@ -57,7 +60,6 @@ void AAGPproceduralProjectCharacter::BeginPlay()
 
 	PawnSensor->OnSeePawn.AddDynamic(this, &AAGPproceduralProjectCharacter::OnSeePawn);
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AAGPproceduralProjectCharacter::OnBeginOverlap);
-	FTimerHandle blinkTimer;
 	GetWorldTimerManager().SetTimer(blinkTimer, this, &AAGPproceduralProjectCharacter::StartBlink, timeUnitlBlink, true);
 
 	if (FlashlightClass)
@@ -266,8 +268,9 @@ void AAGPproceduralProjectCharacter::EndBlink()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "END BLINK");
 	float baseAccel = enemy->moveAccel;
-	UCharacterMovementComponent* enemMov = enemy->GetCharacterMovement();
-
+	UCharacterMovementComponent* enemMov = Cast<UCharacterMovementComponent>(enemy->GetCharacterMovement());
+	enemMov->MaxAcceleration = baseAccel;
+	PawnSensor->SightRadius = 5000.0f;
 }
 
 void AAGPproceduralProjectCharacter::OnBlink()

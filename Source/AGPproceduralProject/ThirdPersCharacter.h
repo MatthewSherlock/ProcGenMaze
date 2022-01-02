@@ -78,7 +78,7 @@ class AGPPROCEDURALPROJECT_API AThirdPersCharacter : public ACharacter
 		UPROPERTY(BlueprintReadWrite)
 			bool hasGun; //for animation
 
-		UPROPERTY(BlueprintReadWrite)
+		UPROPERTY(BlueprintReadWrite, EditAnywhere)
 			float moveAccel;
 
 		UFUNCTION()
@@ -92,8 +92,12 @@ class AGPPROCEDURALPROJECT_API AThirdPersCharacter : public ACharacter
 		UFUNCTION(BlueprintImplementableEvent)
 			void SeenByPlayer();
 
-		UFUNCTION(BlueprintCallable)
 			void OnPlayerBlink();
 
-		int randNum;
+		UPROPERTY(BlueprintReadWrite)
+			int randNum;
+
+		UFUNCTION(BlueprintImplementableEvent)
+			void TeleportToNewLocation();
+
 	};

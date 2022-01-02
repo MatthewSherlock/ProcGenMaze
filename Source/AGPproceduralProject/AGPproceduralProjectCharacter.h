@@ -199,5 +199,8 @@ public:
 	UPROPERTY(EditAnywhere)
 		AThirdPersCharacter* enemy;
 
+	UPROPERTY(BlueprintReadWrite)
+		FTimerHandle blinkTimer;
+
 };
 
