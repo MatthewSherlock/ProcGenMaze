@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "PickupInterface.h"
 #include "PickupBase.generated.h"
 
 UCLASS()
-class AGPPROCEDURALPROJECT_API APickupBase : public AActor
+class AGPPROCEDURALPROJECT_API APickupBase : public AActor, public IPickupInterface
 {
 	GENERATED_BODY()
 	

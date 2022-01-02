@@ -12,8 +12,7 @@
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 #include "ThirdPersCharacter.h"
-#include "GoalKey.h"
-#include "Battery.h"
+#include "PickupBase.h"
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
 //////////////////////////////////////////////////////////////////////////
@@ -47,6 +46,8 @@ AAGPproceduralProjectCharacter::AAGPproceduralProjectCharacter()
 	PawnSensor->SensingInterval = 0.25f; // 4 times per second
 	PawnSensor->bOnlySensePlayers = false;
 	PawnSensor->SetPeripheralVisionAngle(85.f);
+
+	blinkTime = 5.0f;
 }
 
 void AAGPproceduralProjectCharacter::BeginPlay()
@@ -56,6 +57,19 @@ void AAGPproceduralProjectCharacter::BeginPlay()
 
 	PawnSensor->OnSeePawn.AddDynamic(this, &AAGPproceduralProjectCharacter::OnSeePawn);
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AAGPproceduralProjectCharacter::OnBeginOverlap);
+	FTimerHandle blinkTimer;
+	GetWorldTimerManager().SetTimer(blinkTimer, this, &AAGPproceduralProjectCharacter::StartBlink, timeUnitlBlink, true);
+
+	if (FlashlightClass)
+	{
+		flashlight = GetWorld()->SpawnActor<AFlashlight>(FlashlightClass);
+		
+		if (flashlight)
+		{
+			flashlight->AttachToComponent(GetMesh1P(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_l"));
+		}
+	}
+
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -225,37 +239,47 @@ void AAGPproceduralProjectCharacter::RemoveLives()
 
 void AAGPproceduralProjectCharacter::OnSeePawn(APawn* OtherPawn)
 {
-	AThirdPersCharacter* enemy = Cast<AThirdPersCharacter>(OtherPawn);
+	AThirdPersCharacter* enemySeen = Cast<AThirdPersCharacter>(OtherPawn);
 
-	if (enemy)
+	if (enemySeen)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "enemy seen");
-		enemy->SeenByPlayer();
+		if (!isBlinking) 
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "enemy seen");
+			enemySeen->SeenByPlayer();
+		}
 	}
 }
 
 void AAGPproceduralProjectCharacter::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	AGoalKey* key = Cast<AGoalKey>(OtherActor);
-	ABattery* battery = Cast<ABattery>(OtherActor);
+	APickupBase* pickup = Cast<APickupBase>(OtherActor);
 
-	if (key)
+	if (pickup)
 	{
-		key->Destroy();
-		keyFound = true;
+		pickup->UsePickup();
 	}
-	if (battery)
-	{
-		float amount = battery->batteryLifeGiven;
-	}
+
 }
 
-void AAGPproceduralProjectCharacter::Blink()
+void AAGPproceduralProjectCharacter::EndBlink()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "END BLINK");
+	float baseAccel = enemy->moveAccel;
+	UCharacterMovementComponent* enemMov = enemy->GetCharacterMovement();
 
+}
+
+void AAGPproceduralProjectCharacter::OnBlink()
+{
+	PawnSensor->SightRadius = 0.0f;	
+	enemy->OnPlayerBlink();
+	FTimerHandle onBlinkTimer;
+	GetWorldTimerManager().SetTimer(onBlinkTimer, this, &AAGPproceduralProjectCharacter::EndBlink, blinkTime, true);
 }
 
 void AAGPproceduralProjectCharacter::UseFlashlight()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "used");
+	flashlight->ToggleFlashlight();
 }

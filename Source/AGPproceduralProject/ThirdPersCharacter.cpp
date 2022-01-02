@@ -164,3 +164,9 @@ float AThirdPersCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Da
 	return health;
 }
 
+void AThirdPersCharacter::OnPlayerBlink()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "ON PLAYER BLINK");
+
+}
+

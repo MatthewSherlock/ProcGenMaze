@@ -78,6 +78,9 @@ class AGPPROCEDURALPROJECT_API AThirdPersCharacter : public ACharacter
 		UPROPERTY(BlueprintReadWrite)
 			bool hasGun; //for animation
 
+		UPROPERTY(BlueprintReadWrite)
+			float moveAccel;
+
 		UFUNCTION()
 			void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
@@ -89,4 +92,8 @@ class AGPPROCEDURALPROJECT_API AThirdPersCharacter : public ACharacter
 		UFUNCTION(BlueprintImplementableEvent)
 			void SeenByPlayer();
 
+		UFUNCTION(BlueprintCallable)
+			void OnPlayerBlink();
+
+		int randNum;
 	};

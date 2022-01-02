@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "Perception/PawnSensingComponent.h"
 #include "Flashlight.h"
+#include "TimerManager.h"
+#include "ThirdPersCharacter.h"
 #include "AGPproceduralProjectCharacter.generated.h"
 
 class UInputComponent;
@@ -21,8 +23,7 @@ class AAGPproceduralProjectCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-	UPROPERTY(VisibleAnywhere, Category = Awareness)
-	UPawnSensingComponent* PawnSensor;
+
 
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
 	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
@@ -156,8 +157,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void RemoveLives();
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		int currLives;
+	
+	UPROPERTY(VisibleAnywhere, Category = Awareness, BlueprintReadOnly)
+		UPawnSensingComponent* PawnSensor;
 
 	bool keyFound;
 	UFUNCTION()
@@ -165,11 +169,35 @@ public:
 	UFUNCTION()
 		void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-	void Blink();
+	UFUNCTION(BlueprintImplementableEvent)
+		void StartBlink();
+
+		void EndBlink();
+
+	UFUNCTION(BlueprintCallable)
+		void OnBlink();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		float timeUnitlBlink;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		float blinkTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool isBlinking;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TSubclassOf<AFlashlight> FlashlightClass;
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		AFlashlight* flashlight;
 
 	void UseFlashlight();
+
+	UPROPERTY(EditAnywhere)
+		AThirdPersCharacter* enemy;
+
 };
 

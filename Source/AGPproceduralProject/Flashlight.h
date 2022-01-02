@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/SpotLightComponent.h"
+
 #include "Flashlight.generated.h"
 
 UCLASS()
@@ -23,9 +25,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	UPROPERTY(EditAnywhere)
-		UStaticMeshComponent* staticMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float currBatteryLife;

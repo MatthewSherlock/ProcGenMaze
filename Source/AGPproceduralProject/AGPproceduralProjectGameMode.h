@@ -15,6 +15,16 @@ class AAGPproceduralProjectGameMode : public AGameModeBase
 public:
 	AAGPproceduralProjectGameMode();
 
+	virtual void BeginPlay() override;
+
+	void SpawnPickups(ASpawnPickup* pspawn);
+
+	int RandomNumInArray(ASpawnPickup* pspawn);
+
+	UPROPERTY(EditAnywhere)
+		ASpawnPickup* spawner;
+
+
 };
 
 
