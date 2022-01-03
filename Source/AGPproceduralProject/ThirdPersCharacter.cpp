@@ -51,9 +51,7 @@ AThirdPersCharacter::AThirdPersCharacter()
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
-	health = 100.0f;
-	hasGun = false;
-
+	moveAccel = 2048.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -168,8 +166,6 @@ float AThirdPersCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Da
 
 void AThirdPersCharacter::OnPlayerBlink()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "ON PLAYER BLINK");	
-
 	randNum = FMath::RandRange(0, 100);
 
 	if (randNum <= 20)

@@ -13,6 +13,7 @@
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 #include "ThirdPersCharacter.h"
 #include "PickupBase.h"
+#include "EngineUtils.h" //for ActorIterator
 #include "GameFramework/CharacterMovementComponent.h"
 
 
@@ -71,7 +72,10 @@ void AAGPproceduralProjectCharacter::BeginPlay()
 			flashlight->AttachToComponent(GetMesh1P(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_l"));
 		}
 	}
-
+	for (TActorIterator<AThirdPersCharacter> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	{
+		enemy = *ActorItr;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -278,7 +282,7 @@ void AAGPproceduralProjectCharacter::OnBlink()
 	PawnSensor->SightRadius = 0.0f;	
 	enemy->OnPlayerBlink();
 	FTimerHandle onBlinkTimer;
-	GetWorldTimerManager().SetTimer(onBlinkTimer, this, &AAGPproceduralProjectCharacter::EndBlink, blinkTime, true);
+	GetWorldTimerManager().SetTimer(onBlinkTimer, this, &AAGPproceduralProjectCharacter::EndBlink, blinkTime, false);
 }
 
 void AAGPproceduralProjectCharacter::UseFlashlight()

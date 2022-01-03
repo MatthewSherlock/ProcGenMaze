@@ -202,5 +202,8 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 		FTimerHandle blinkTimer;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool beingDragged;
+
 };
 

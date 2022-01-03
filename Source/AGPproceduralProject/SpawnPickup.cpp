@@ -4,6 +4,7 @@
 #include "SpawnPickup.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "AGPproceduralProjectGameMode.h"
 // Sets default values
 ASpawnPickup::ASpawnPickup()
 {
@@ -34,13 +35,17 @@ void ASpawnPickup::SpawnPickup(TSubclassOf<class AActor> pickup)
 	FActorSpawnParameters spawnParams;
 	spawnParams.Owner = this;
 	spawnParams.Instigator = GetInstigator();
-	spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+	spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
 	FVector spawnLoc = getRandomPtInVolume();
 	FRotator rot = FRotator::ZeroRotator;
 	AActor* a = GetWorld()->SpawnActor<AActor>(pickup, spawnLoc, rot, spawnParams);
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "spawnPickup");
+	if (a == nullptr) 
+	{
+		AAGPproceduralProjectGameMode* gm = Cast<AAGPproceduralProjectGameMode>(GetWorld()->GetAuthGameMode());
+		gm->SpawnPickups(this);
+	}
 
 }
 

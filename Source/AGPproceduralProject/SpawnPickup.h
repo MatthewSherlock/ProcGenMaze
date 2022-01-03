@@ -34,4 +34,8 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		TArray<TSubclassOf<class APickupBase>> pickupArray;
+
+	UPROPERTY(EditAnywhere)
+		int numOfPickups;
+
 };
