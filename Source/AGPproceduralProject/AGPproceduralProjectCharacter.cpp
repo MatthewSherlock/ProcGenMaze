@@ -69,7 +69,7 @@ void AAGPproceduralProjectCharacter::BeginPlay()
 		
 		if (flashlight)
 		{
-			flashlight->AttachToComponent(GetMesh1P(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_l"));
+			flashlight->AttachToComponent(GetMesh1P(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("middle_03_l"));
 		}
 	}
 	for (TActorIterator<AThirdPersCharacter> ActorItr(GetWorld()); ActorItr; ++ActorItr)
@@ -233,7 +233,6 @@ bool AAGPproceduralProjectCharacter::EnableTouchscreenMovement(class UInputCompo
 void AAGPproceduralProjectCharacter::RemoveLives()
 {
 	currLives -= 1;
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "REMOVE LIVES");
 	FString IntAsString = FString::FromInt(currLives);
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, IntAsString);
 
@@ -251,7 +250,6 @@ void AAGPproceduralProjectCharacter::OnSeePawn(APawn* OtherPawn)
 	{
 		if (!isBlinking) 
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "enemy seen");
 			enemySeen->SeenByPlayer();
 		}
 	}
@@ -270,7 +268,6 @@ void AAGPproceduralProjectCharacter::OnBeginOverlap(UPrimitiveComponent* Overlap
 
 void AAGPproceduralProjectCharacter::EndBlink()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "END BLINK");
 	float baseAccel = enemy->moveAccel;
 	UCharacterMovementComponent* enemMov = Cast<UCharacterMovementComponent>(enemy->GetCharacterMovement());
 	enemMov->MaxAcceleration = baseAccel;
@@ -287,6 +284,5 @@ void AAGPproceduralProjectCharacter::OnBlink()
 
 void AAGPproceduralProjectCharacter::UseFlashlight()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "used");
 	flashlight->ToggleFlashlight();
 }
