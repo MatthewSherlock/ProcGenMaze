@@ -3,6 +3,7 @@
 
 #include "Flashlight.h"
 #include "Math/UnrealMathUtility.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AFlashlight::AFlashlight()
@@ -50,7 +51,8 @@ void AFlashlight::Tick(float DeltaTime)
 
 void AFlashlight::TurnOff()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "OFF");
+	UGameplayStatics::PlaySound2D(this, toggleSound);
+
 	isOn = false;
 	USpotLightComponent* light = FindComponentByClass<USpotLightComponent>();
 	light->SetVisibility(false);
@@ -60,7 +62,7 @@ void AFlashlight::TurnOn()
 {
 	if (!outOfBattery)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "ON");
+		UGameplayStatics::PlaySound2D(this, toggleSound);
 		isOn = true;
 		USpotLightComponent* light = FindComponentByClass<USpotLightComponent>();
 		light->SetVisibility(true);
@@ -73,12 +75,10 @@ void AFlashlight::ToggleFlashlight()
 {
 	if (isOn)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "TURN OFF");
 		TurnOff();
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "TURN ON");
 		TurnOn();
 	}
 		

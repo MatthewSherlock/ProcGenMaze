@@ -3,6 +3,7 @@
 
 #include "Battery.h"
 #include "AGPproceduralProjectCharacter.h"
+#include "Kismet/GameplayStatics.h"
 
 void ABattery::BeginPlay()
 {
@@ -16,6 +17,8 @@ void ABattery::UsePickup()
 
 	if (player)
 	{
+		UGameplayStatics::PlaySound2D(this, pickupSound);
+
 		player->flashlight->RefillBattery(batteryChange);
 		Destroy();
 

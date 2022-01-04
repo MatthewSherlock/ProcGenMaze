@@ -6,6 +6,8 @@
 #include "UObject/ConstructorHelpers.h"
 #include "EngineUtils.h" //for ActorIterator
 #include "ProcGenGameState.h"
+#include "ProcGenGameInstance.h"
+#include "Kismet/GameplayStatics.h"
 
 AAGPproceduralProjectGameMode::AAGPproceduralProjectGameMode()
 	: Super()
@@ -72,6 +74,9 @@ void AAGPproceduralProjectGameMode::CalculateFinalScore()
 {
 	AProcGenGameState* gs = GetGameState<AProcGenGameState>();
 	AAGPproceduralProjectCharacter* chr = Cast<AAGPproceduralProjectCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	UProcGenGameInstance* gi = Cast<UProcGenGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
 	totalScore = (gs->gameTime);
+
+	gi->finalScore = totalScore;
 }

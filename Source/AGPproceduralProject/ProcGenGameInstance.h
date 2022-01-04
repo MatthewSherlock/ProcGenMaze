@@ -19,4 +19,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int newSeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int finalScore;
 };

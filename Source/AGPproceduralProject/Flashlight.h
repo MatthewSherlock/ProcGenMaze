@@ -34,7 +34,10 @@ public:
 		
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float batteryDepleteRate;
-
+	
+	UPROPERTY(EditDefaultsOnly, Category = Audio)
+		USoundBase* toggleSound;
+	
 	bool isOn;
 
 	void TurnOff();

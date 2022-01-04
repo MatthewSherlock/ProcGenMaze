@@ -3,6 +3,7 @@
 
 #include "GoalKey.h"
 #include "AGPproceduralProjectCharacter.h"
+#include "Kismet/GameplayStatics.h"
 
 void AGoalKey::BeginPlay()
 {
@@ -17,6 +18,7 @@ void AGoalKey::UsePickup()
 
 	if (player)
 	{
+		UGameplayStatics::PlaySound2D(this, pickupSound);
 
 		player->keyFound = true;
 		Destroy();
