@@ -49,7 +49,7 @@ void AAGPproceduralProjectGameMode::SpawnPickups(ASpawnPickup* pspawn)
 int AAGPproceduralProjectGameMode::RandomNumInArray(ASpawnPickup* pspawn)
 {
 	int randArrayNum = FMath::RandRange(0, pspawn->pickupArray.Num() - 1);
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan,pspawn->GetName());
+	
 	return randArrayNum;
 }
 

@@ -10,15 +10,14 @@ AFlashlight::AFlashlight()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-
+	outOfBattery = false;
+	isOn = true;
 }
 
 // Called when the game starts or when spawned
 void AFlashlight::BeginPlay()
 {
 	Super::BeginPlay();
-	USpotLightComponent* light = FindComponentByClass<USpotLightComponent>();
-	light->SetVisibility(false);
 }
 
 // Called every frame
@@ -26,49 +25,67 @@ void AFlashlight::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (currBatteryLife > 0)
+	{
+		outOfBattery = false;
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "> 0");
 
+	}
 
 	if (isOn)
 	{
-		if (currBatteryLife >= 0)
+		if (currBatteryLife > 0)
 		{
 			currBatteryLife -= batteryDepleteRate;
+			outOfBattery = false;
+
+		}
+		if (currBatteryLife <= 0)
+		{
+			TurnOff();
+			outOfBattery = true;
 		}
 	}
 }
 
 void AFlashlight::TurnOff()
 {
-	//set light to  inactive
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "Light OFF");
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "OFF");
 	isOn = false;
 	USpotLightComponent* light = FindComponentByClass<USpotLightComponent>();
-	light->ToggleVisibility();
+	light->SetVisibility(false);
 }
 
 void AFlashlight::TurnOn()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "Light ON");
-	isOn = true;
-	//set light to active
-	USpotLightComponent* light = FindComponentByClass<USpotLightComponent>();
-	light->ToggleVisibility();
-
+	if (!outOfBattery)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "ON");
+		isOn = true;
+		USpotLightComponent* light = FindComponentByClass<USpotLightComponent>();
+		light->SetVisibility(true);
+	}
+	else
+		TurnOff();
 }
 
 void AFlashlight::ToggleFlashlight()
 {
 	if (isOn)
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "TURN OFF");
 		TurnOff();
 	}
 	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "TURN ON");
 		TurnOn();
+	}
+		
 }
 
 void AFlashlight::RefillBattery(float amt)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "REFILL");
 	currBatteryLife += amt;
 
 	if (currBatteryLife > 100)
